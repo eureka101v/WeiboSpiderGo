@@ -2,6 +2,8 @@
 
 It's a sina weibo (chinese twitter) spider written by golang golly
 
+可以双击运行的微博爬虫
+
 #### 使用准备
 
 - chrome driver安装
