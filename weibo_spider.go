@@ -13,16 +13,15 @@ func scrapyInfomation() {
 	getMoreInfoC := scrapy_rules.GetDefaultCollector()
 	scrapy_rules.SetMoreInfoCallback(getMoreInfoC)
 
-	scrapy_rules.SetInfoCallback(getInfoC,getMoreInfoC)
+	scrapy_rules.SetInfoCallback(getInfoC, getMoreInfoC)
 
-	for _,uid := range uidLi{
-		url := fmt.Sprintf("%s/%s/info",scrapy_rules.BaseUrl,uid)
+	for _, uid := range uidLi {
+		url := fmt.Sprintf("%s/%s/info", scrapy_rules.BaseUrl, uid)
 		getInfoC.Visit(url)
 	}
 	getInfoC.Wait()
 	getMoreInfoC.Wait()
 }
-
 
 func scrapyTweet() {
 	getTweetsC := scrapy_rules.GetDefaultCollector()
@@ -31,9 +30,9 @@ func scrapyTweet() {
 	getCommentSubC := scrapy_rules.GetDefaultCollector()
 	scrapy_rules.SetCommentCallback(getCommentSubC)
 
-	scrapy_rules.SetTweetCallback(getTweetsC,getContentSubC,getCommentSubC)
+	scrapy_rules.SetTweetCallback(getTweetsC, getContentSubC, getCommentSubC)
 
-	for _,uid := range uidLi{
+	for _, uid := range uidLi {
 		url := scrapy_rules.GetTweetUrl(uid)
 		getTweetsC.Visit(url)
 	}
@@ -46,7 +45,7 @@ func scrapyFollow() {
 	getFollowC := scrapy_rules.GetDefaultCollector()
 	scrapy_rules.SetFollowCallback(getFollowC)
 	//read files
-	for _,uid := range uidLi{
+	for _, uid := range uidLi {
 		url := scrapy_rules.GetFollowUrl(uid)
 		getFollowC.Visit(url)
 	}
@@ -57,7 +56,7 @@ func scrapyFans() {
 	getFansC := scrapy_rules.GetDefaultCollector()
 	scrapy_rules.SetFansCallback(getFansC)
 
-	for _,uid := range uidLi{
+	for _, uid := range uidLi {
 		url := scrapy_rules.GetFansUrl(uid)
 		getFansC.Visit(url)
 	}
@@ -66,8 +65,8 @@ func scrapyFans() {
 
 func main() {
 	//修复去重问题
-	//scrapyInfomation()
-	//scrapyFollow()
-	//scrapyFans()
+	scrapyInfomation()
+	scrapyFollow()
+	scrapyFans()
 	scrapyTweet()
 }

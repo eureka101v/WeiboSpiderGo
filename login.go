@@ -40,7 +40,7 @@ func getCookieStr(username_text string, password_text string) string {
 	//password_text := "23121"
 	const (
 		// These paths will be different on your system.
-		driverPath = "/usr/local/bin/chromedriver"
+		driverPath = "browser/chromedriver"
 		port       = 9005
 	)
 	opts := []selenium.ServiceOption{}
@@ -123,10 +123,14 @@ func getCookieStr(username_text string, password_text string) string {
 
 func saveToMgo(id_ string, password string, cookie_str string) {
 	err := mdb.Upsert(db_name, "account", bson.M{"_id": id_}, bson.M{"$set": bson.M{"password": password, "cookie": cookie_str, "status": "success"}})
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
-	fmt.Println("login success")
+	if cookie_str != "" {
+		fmt.Println("login success")
+	} else {
+		fmt.Println("login fail")
+	}
 }
 
 func main() {
@@ -139,8 +143,8 @@ func main() {
 	for scanner.Scan() {
 		lineText := scanner.Text()
 		text := strings.Split(lineText, "----")
-		fmt.Println("start login username:",text[0])
-		cookiestr := getCookieStr(text[0],text[1])
-		saveToMgo(text[0],text[1],cookiestr)
+		fmt.Println("start login username:", text[0])
+		cookiestr := getCookieStr(text[0], text[1])
+		saveToMgo(text[0], text[1], cookiestr)
 	}
 }
