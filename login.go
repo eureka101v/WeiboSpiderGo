@@ -3,6 +3,7 @@ package main
 import (
 	"WeiboSpiderGo/config"
 	"WeiboSpiderGo/mdb"
+	"WeiboSpiderGo/utils"
 	"bufio"
 	"fmt"
 	"github.com/tebeka/selenium"
@@ -38,9 +39,9 @@ func getCookieStr(username_text string, password_text string) string {
 	// running).
 	//username_text := "1222"
 	//password_text := "23121"
-	const (
+	var (
 		// These paths will be different on your system.
-		driverPath = "browser/chromedriver"
+		driverPath = utils.ExecPath + config.Conf.GetString("DRIVER_PATH")
 		port       = 9005
 	)
 	opts := []selenium.ServiceOption{}
@@ -134,7 +135,8 @@ func saveToMgo(id_ string, password string, cookie_str string) {
 }
 
 func main() {
-	file, err := os.Open(config.Conf.GetString("ACCOUNT_FILE"))
+	file, err := os.Open(utils.ExecPath + config.Conf.GetString("ACCOUNT_FILE"))
+	fmt.Println(utils.ExecPath + config.Conf.GetString("ACCOUNT_FILE"))
 	if err != nil {
 		fmt.Println("account.txt is not found")
 	}

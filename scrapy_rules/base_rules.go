@@ -20,10 +20,11 @@ var dbName = config.Conf.GetString("DB_NAME")
 // return a collector
 func GetDefaultCollector() *colly.Collector {
 	//set async and dont forget set c.wait()
-	if config.Conf.GetBool("DEBUG_MODE"){}
-	debugger :=  &debug.LogDebugger{}
+	if config.Conf.GetBool("DEBUG_MODE") {
+	}
+	debugger := &debug.LogDebugger{}
 
-	//file,err := os.Create("./debug.log")
+	//file,err := os.Create(utils.ExecPath+"/debug.log")
 	//if err!=nil{
 	//	panic(err)
 	//}
@@ -60,7 +61,7 @@ func setDefaultCallback(c *colly.Collector) {
 	// number of go routines.
 
 	// delay 3 to 5 second
-	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 2, Delay: 3 * time.Second,RandomDelay:2*time.Second})
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 2, Delay: 8 * time.Second, RandomDelay: 2 * time.Second})
 
 	// deal with error statusCode
 	c.OnError(func(r *colly.Response, e error) {

@@ -3,11 +3,14 @@ package utils
 import (
 	"bufio"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 )
+
+var ExecPath = getExecutePath()
 
 func ReParse(pattern string, content string) string {
 	str := regexp.MustCompile(pattern).FindAllStringSubmatch(content, -1)
@@ -49,7 +52,7 @@ func ConvTime(timeStr string) string {
 
 func GetTargetUidList() []string {
 	var uidLi []string
-	file, err := os.Open("account/target.txt")
+	file, err := os.Open(ExecPath + "/account/target.txt")
 	defer file.Close()
 	if err != nil {
 		panic(err)
@@ -59,7 +62,11 @@ func GetTargetUidList() []string {
 		lineText := scanner.Text()
 		lineText = strings.TrimSpace(lineText)
 		lineText = strings.Replace(lineText, "\uFEFF", "", -1)
-		uidLi = append(uidLi,lineText)
+		uidLi = append(uidLi, lineText)
 	}
 	return uidLi
+}
+
+func getExecutePath() string {
+	return filepath.Dir(os.Args[0])
 }

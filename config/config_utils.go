@@ -1,7 +1,8 @@
 package config
 
 import (
-"github.com/spf13/viper"
+	"WeiboSpiderGo/utils"
+	"github.com/spf13/viper"
 )
 
 var Conf *viper.Viper
@@ -11,7 +12,7 @@ func init() {
 
 	Conf.SetConfigName("config")
 
-	Conf.AddConfigPath("./")
+	Conf.AddConfigPath(utils.ExecPath)
 
 	Conf.SetConfigType("yaml")
 	if err := Conf.ReadInConfig(); err != nil {
