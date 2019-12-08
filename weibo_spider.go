@@ -1,6 +1,7 @@
 package main
 
 import (
+	"WeiboSpiderGo/config"
 	"WeiboSpiderGo/scrapy_rules"
 	"WeiboSpiderGo/utils"
 	"fmt"
@@ -64,9 +65,17 @@ func scrapyFans() {
 }
 
 func main() {
+	if config.Conf.GetBool("SCRAPY_TYPE.Info") {
+		scrapyInfomation()
+	}
+	if config.Conf.GetBool("SCRAPY_TYPE.Follow") {
+		scrapyFollow()
+	}
 	//修复去重问题
-	scrapyInfomation()
-	scrapyFollow()
-	scrapyFans()
-	scrapyTweet()
+	if config.Conf.GetBool("SCRAPY_TYPE.Fans") {
+		scrapyFans()
+	}
+	if config.Conf.GetBool("SCRAPY_TYPE.Tweet.Main") {
+		scrapyTweet()
+	}
 }

@@ -61,7 +61,12 @@ func setDefaultCallback(c *colly.Collector) {
 	// number of go routines.
 
 	// delay 3 to 5 second
-	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 2, Delay: 8 * time.Second, RandomDelay: 2 * time.Second})
+	delay := time.Duration(config.Conf.GetInt("DELAY"))
+	randomDelay := time.Duration(config.Conf.GetInt("RANDOM_DELAY"))
+	if delay == 0 || randomDelay == 0 {
+		delay, randomDelay = 8, 2
+	}
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 2, Delay: delay * time.Second, RandomDelay: randomDelay * time.Second})
 
 	// deal with error statusCode
 	c.OnError(func(r *colly.Response, e error) {

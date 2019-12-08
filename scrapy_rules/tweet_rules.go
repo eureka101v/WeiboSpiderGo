@@ -1,6 +1,7 @@
 package scrapy_rules
 
 import (
+	"WeiboSpiderGo/config"
 	"WeiboSpiderGo/mdb"
 	"WeiboSpiderGo/utils"
 	"fmt"
@@ -19,7 +20,7 @@ func SetTweetCallback(getTweetsC, getContentSubC, getCommentSubC *colly.Collecto
 			allPage := utils.ReParse(`/>&nbsp;1/(\d+)页</div>`, content)
 			pageNum, _ := strconv.Atoi(allPage)
 			for i := 2; i < (pageNum + 1); i++ {
-				link := fmt.Sprintf("%s/%s/profile?page=%d",BaseUrl,uid,i)
+				link := fmt.Sprintf("%s/%s/profile?page=%d", BaseUrl, uid, i)
 				getTweetsC.Visit(link)
 			}
 		}
@@ -90,13 +91,15 @@ func SetTweetCallback(getTweetsC, getContentSubC, getCommentSubC *colly.Collecto
 			}
 		} else {
 			element.Response.Ctx.Put("tweet", tweet)
-			contentSubLink := fmt.Sprintf("%s%s",BaseUrl,allContentLink)
+			contentSubLink := fmt.Sprintf("%s%s", BaseUrl, allContentLink)
 			getContentSubC.Request("GET", contentSubLink, nil, element.Response.Ctx, nil)
 		}
 
-		commentLink := fmt.Sprintf("%s/comment/%s?page=1",BaseUrl,strings.Split(tweet.Id_, "_")[1])
+		commentLink := fmt.Sprintf("%s/comment/%s?page=1", BaseUrl, strings.Split(tweet.Id_, "_")[1])
 		element.Response.Ctx.Put("weibo_url", tweet.WeiboUrl)
-		getCommentSubC.Request("GET", commentLink, nil, element.Response.Ctx, nil)
+		if config.Conf.GetBool("SCRAPY_TYPE.Tweet.Comment") {
+			getCommentSubC.Request("GET", commentLink, nil, element.Response.Ctx, nil)
+		}
 	})
 }
 
@@ -168,6 +171,6 @@ func SetCommentCallback(getCommentSubC *colly.Collector) {
 	})
 }
 
-func GetTweetUrl(uid string)string{
-	return fmt.Sprintf("%s/%s/profile?page=1",BaseUrl,uid)
+func GetTweetUrl(uid string) string {
+	return fmt.Sprintf("%s/%s/profile?page=1", BaseUrl, uid)
 }

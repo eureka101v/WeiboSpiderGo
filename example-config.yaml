@@ -1,0 +1,12 @@
+MONGO_ADDRESS: "127.0.0.1:27017"
+DB_NAME: "Sina2"
+ACCOUNT_FILE: "/account/account.txt"
+DRIVER_PATH: "/browser/chromedriver"
+# 爬取类型
+SCRAPY_TYPE:
+  Info: True
+  Follow: False
+  Fans: False
+  Tweet:
+    Main: True
+    Comment: False

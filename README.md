@@ -26,6 +26,36 @@ It's a sina weibo (chinese twitter) spider written by golang golly
 
 希望大家不要涸泽而渔，release中的版本爬取间隔为10秒左右
 
+#### 配置文件内容
+
+配置文件为根目录下的config.yaml
+
+配置文件含义
+
+```
+MONGO_ADDRESS - mongodb地址
+DB_NAME       - mongodb数据库名
+ACCOUNT_FILE  - 存放要爬取的目标账户id的文件
+DRIVER_PATH: "/browser/chromedriver"
+# 最终延时=延时+随机延时
+DELAY: 3
+RANDOM_DELAY: 2
+# 爬取类型
+SCRAPY_TYPE:
+  Info: True
+  Follow: False
+  Fans: False
+  Tweet:
+    Main: True
+    Comment: False
+```
+
+
+
+
+
+
+
 #### 编译
 
 安装依赖后使用
