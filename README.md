@@ -37,9 +37,6 @@ MONGO_ADDRESS - mongodb地址
 DB_NAME       - mongodb数据库名
 ACCOUNT_FILE  - 存放要爬取的目标账户id的文件
 DRIVER_PATH: "/browser/chromedriver"
-# 最终延时=延时+随机延时
-DELAY: 3
-RANDOM_DELAY: 2
 # 爬取类型
 SCRAPY_TYPE:
   Info: True
